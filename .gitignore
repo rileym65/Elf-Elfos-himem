@@ -1,0 +1,7 @@
+bios.inc
+date.inc
+build.inc
+kernel.inc
+build.num
+*.prg
+*.lst
