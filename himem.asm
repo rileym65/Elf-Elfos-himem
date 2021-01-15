@@ -39,7 +39,7 @@ start:     lda     ra                  ; move past any spaces
            smi     030h                ; do not allow setting below 3000h
            lbdf    ok                  ; jump if ok
            sep     scall               ; otherwise display error
-           dw      f_inmsg
+           dw      o_inmsg
            db      'Cannot set high memory below 3000h',10,13,0
            lbr     o_wrmboot           ; return to Elf/OS
 ok:        sep     scall               ; get end of RAM
@@ -51,7 +51,7 @@ ok:        sep     scall               ; get end of RAM
            sm
            lbnf    good                ; jump if below end of memory
            sep     scall               ; otherwise display error
-           dw      f_inmsg
+           dw      o_inmsg
            db      'Cannot set high memory above end of RAM',10,13,0
            lbr     o_wrmboot           ; return to Elf/OS
 good:      mov     rf,0442h            ; point to high memory pointer
@@ -70,7 +70,7 @@ disp:      mov     rf,0442h            ; address of high memory pointer
            dw      f_hexout4
            mov     rf,buffer           ; point to output buffer
            sep     scall               ; and display it
-           dw      f_msg
+           dw      o_msg
            lbr     o_wrmboot           ; and return to Elf/OS
 buffer:    db      0,0,0,0,10,13,0
 
