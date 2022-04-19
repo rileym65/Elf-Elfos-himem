@@ -6,24 +6,19 @@
 ; *** without express written permission from the author.         ***
 ; *******************************************************************
 
+.op "PUSH","N","9$1 73 8$1 73"
+.op "POP","N","60 72 A$1 F0 B$1"
+.op "CALL","W","D4 H1 L1"
+.op "RTN","","D5"
+.op "MOV","NR","9$1 B$2 8$1 A$2"
+.op "MOV","NW","F8 H2 B$1 F8 L2 A$1"
+
 include    ../bios.inc
 include    ../kernel.inc
 
-           org     8000h
-           lbr     0ff00h
-           db      'himem',0
-           dw      9000h
-           dw      endrom+7000h
-           dw      2000h
-           dw      endrom-2000h
-           dw      2000h
-           db      0
- 
            org     2000h
-           br      start
-
-include    date.inc
-include    build.inc
+begin:     br      start
+           eever
            db      'Written by Michael H. Riley',0
 
 start:     mov     rf,K_HEAP           ; address of high memory pointer
@@ -38,9 +33,10 @@ start:     mov     rf,K_HEAP           ; address of high memory pointer
            mov     rf,buffer           ; point to output buffer
            sep     scall               ; and display it
            dw      o_msg
-           lbr     o_wrmboot           ; and return to Elf/OS
+           ldi     0
+           sep     sret                ; and return to Elf/OS
 buffer:    db      0,0,0,0,10,13,0
 
 endrom:    equ     $
 
-
+           end     begin
